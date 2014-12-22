@@ -1,0 +1,19 @@
+{
+  "name": "AngularJs-MatchHeight",
+  "version": "1.0.0",
+  "description": "AngularJs-MatchHeight =====================",
+  "main": "angular-matchheight.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rrgrs/AngularJs-MatchHeight.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rrgrs/AngularJs-MatchHeight/issues"
+  },
+  "homepage": "https://github.com/rrgrs/AngularJs-MatchHeight"
+}
