@@ -5,31 +5,48 @@
  */
 
 angular.module('angular-matchheight', [])
-    .directive('ilnMatchHeight', [
-        function () {
-        return {
-            restrict: 'A',
-            link:   function ( scope, elm, attrs ) {
-                if( scope.ilnMatchHeightArr === undefined ){
-                    scope.ilnMatchHeightArr = [elm[0].offsetHeight];
-                }else{
-                    scope.ilnMatchHeightArr.push(elm[0].offsetHeight);
-                }
+  .directive('ilnMatchHeight', [
+    function () {
 
-                var largetsNo = function( array ){
-                    return Math.max.apply( Math, array );
-                };
+      var elems = [];
 
-                scope.$watch(scope.ilnMatchHeightArr, function(){
-                    elm.css('height', largetsNo(scope.ilnMatchHeightArr)+'px');
-                });
+      function updateHeights() {
+        var elemHeights = [];
 
-                scope.$on(
-                    '$destroy',
-                    function() {
-                        scope.ilnMatchHeightArr = [];
-                    }
-                );
-            }
-        };
-    }]);
+        for(var i = 0; i < elems.length; i++) {
+          elems[i].css('height', '');
+          elemHeights.push(elems[i][0].offsetHeight);
+        }
+
+        var maxHeight = Math.max.apply(Math, elemHeights);
+
+        for(var i = 0; i < elems.length; i++) {
+          elems[i].css('height',  maxHeight+'px');
+        }
+      }
+
+      return {
+        restrict: 'A',
+        scope: {
+          updateOnChange: '='
+        },
+        link: function (scope, elem, attrs) {
+          elems.push(elem);
+
+          scope.$watch(elems, function() {
+            updateHeights();
+          });
+
+          scope.$on('$destroy', function() {
+            elems = [];
+          });
+
+          if(scope.updateOnChange) {
+            scope.$watch('updateOnChange', function() {
+              updateHeights();
+            });
+          }
+        }
+      };
+    }
+  ]);
