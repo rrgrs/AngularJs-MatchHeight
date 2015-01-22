@@ -10,12 +10,16 @@ angular.module('angular-matchheight', [])
 
       var elems = [];
 
-      function updateHeights() {
+      function updateHeights(matchHeights) {
         var elemHeights = [];
 
         for(var i = 0; i < elems.length; i++) {
           elems[i].css('height', '');
           elemHeights.push(elems[i][0].offsetHeight);
+        }
+
+        if(matchHeights == false) {
+          return;
         }
 
         var maxHeight = Math.max.apply(Math, elemHeights);
@@ -28,7 +32,8 @@ angular.module('angular-matchheight', [])
       return {
         restrict: 'A',
         scope: {
-          updateOnChange: '='
+          updateOnChange: '=',
+          enableWhen: '='
         },
         link: function (scope, elem, attrs) {
           elems.push(elem);
@@ -43,7 +48,7 @@ angular.module('angular-matchheight', [])
 
           if(scope.updateOnChange) {
             scope.$watch('updateOnChange', function() {
-              updateHeights();
+              updateHeights(scope.enableWhen);
             });
           }
         }
